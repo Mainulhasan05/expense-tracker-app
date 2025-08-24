@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")  // ← ADD THIS LINE
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -11,24 +11,27 @@ android {
     ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17  // Updated
-        targetCompatibility = JavaVersion.VERSION_17  // Updated
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "17"  // Updated
+        jvmTarget = "17"
     }
 
     defaultConfig {
         applicationId = "com.example.expense_tracker"
         minSdk = 23
-        targetSdk = 35  // Match compileSdk
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
         multiDexEnabled = true
     }
-
+    
     buildTypes {
+        debug {
+        signingConfig = signingConfigs.getByName("debug")
+        }
         release {
             signingConfig = signingConfigs.getByName("debug")
         }
@@ -40,5 +43,5 @@ flutter {
 }
 
 dependencies {
-    implementation("androidx.multidex:multidx:2.0.1")
+    implementation("androidx.multidex:multidex:2.0.1")  // Fixed: multidx -> multidex
 }
