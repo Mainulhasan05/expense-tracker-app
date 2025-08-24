@@ -14,7 +14,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
-  
+
   List<dynamic> categories = [];
   String? selectedCategoryId;
   DateTime selectedDate = DateTime.now();
@@ -142,9 +142,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                             vertical: 12,
                           ),
                         ),
-                        items: categories.map<DropdownMenuItem<String>>((category) {
+                        items: categories.map<DropdownMenuItem<String>>((
+                          category,
+                        ) {
                           return DropdownMenuItem<String>(
-                            value: category['id'].toString(),
+                            value: category['_id'].toString(),
                             child: Row(
                               children: [
                                 Icon(
@@ -190,7 +192,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _amountController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Enter amount',
                         prefixIcon: const Icon(Icons.attach_money),
@@ -200,7 +204,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF667eea)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF667eea),
+                          ),
                         ),
                       ),
                       validator: (value) {
@@ -281,7 +287,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(color: Color(0xFF667eea)),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF667eea),
+                          ),
                         ),
                       ),
                       validator: (value) {
@@ -312,7 +320,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                                 height: 24,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : const Text(

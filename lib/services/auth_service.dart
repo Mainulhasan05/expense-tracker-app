@@ -2,9 +2,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:expense_tracker/constants.dart';
 
 class AuthService {
-  static const String baseUrl = 'https://api.codesharer.xyz/api';
+  // Using baseUrl from constants.dart
   static const String accessTokenKey = 'access_token';
 
   static Map<String, dynamic>? _currentUser;
@@ -76,12 +77,12 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        if (data['accessToken'] != null) {
-          await saveAccessToken(data['accessToken']);
+        if (data['token'] != null) {
+          await saveAccessToken(data['token']);
           _currentUser = {
             'name': data['user']['name'] ?? 'User',
             'email': data['user']['email'] ?? email,
-            'id': data['user']['id'],
+            'id': data['user']['_id'],
           };
           return true;
         } else {
@@ -94,6 +95,7 @@ class AuthService {
         return false;
       }
     } catch (e) {
+      print('Login API Error: $e');
       _errorMessage = 'Network error. Please check your connection.';
       return false;
     }
