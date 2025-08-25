@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expense_tracker/constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthService {
   // Using baseUrl from constants.dart
@@ -68,11 +69,18 @@ class AuthService {
   static Future<bool> signInWithEmail(String email, String password) async {
     try {
       _errorMessage = '';
+      // store deice token in a variable
+      final fcmToken = await getDeviceToken();
 
+      // add device token to request body
       final response = await http.post(
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email, 'password': password}),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+          'fcmToken': fcmToken,
+        }),
       );
 
       if (response.statusCode == 200) {
@@ -99,6 +107,12 @@ class AuthService {
       _errorMessage = 'Network error. Please check your connection.';
       return false;
     }
+  }
+
+  static Future<String?> getDeviceToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    print("FCM Token: $token");
+    return token;
   }
 
   static Future<bool> resetPassword(String email) async {
